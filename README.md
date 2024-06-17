@@ -1,2 +1,2 @@
 # MDShell
-SEGA MEGA DRIVE Shell Utility for debugging 
+SEGA MEGA DRIVE Shell Utility for Debugging 
