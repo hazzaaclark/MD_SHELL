@@ -37,7 +37,9 @@ VRAM:               MACRO LOCATION, CONTROL
 ;       BITWISE VALUES FOR ERROR HANDLING 
 ;--------------------------------------------------------
 
+ERROR_FONT:             INCBIN      "text.bin"          ;; THANKS SONIC 1
 ERROR_HANDLER_FONT:     EQU     $7C0    
+ERROR_TILE_SIZE:        EQU     8*8/2
 
 ADDRESS_ERROR_FLAG      EQU     $01
 SR_USP_ERROR_FLAG       EQU     $02
@@ -61,6 +63,8 @@ ERROR_TYPE              DS.B    1
 
 PRINT_STDERR:
     LEA             (VDP_DATA).L, A6
+    VRAM            ERROR_HANDLER_FONT*ERROR_TILE_SIZE
+    LEA             
 
 PRINT_STDERR_VALUE:
 
