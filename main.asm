@@ -7,26 +7,25 @@
 ;--------------------------------------------------------
 ;   THIS FILE PERTAINS TOWARDS THE MAIN FUNCTIONALITY
 ;                  OF THE PROGRAM
-;--------------------------------------------------------
-;   
-            INCLUDE "vectors.asm"
-;
+;--------------------------------------------------------   
+;       THIS SECTION PERTAINS TOWARDS THE DECLARATION
+;       OF THE ROM HEADER AND SUBSEQUENT DEFINES
 ;--------------------------------------------------------
 
 ROM_HEADER:
 
     DC.B        'SEGA MEGA DRIVE '
-    DC.B        '(C)         HARRY CLARK                         '
+    DC.B        '(C)HARRY CLARK '
     DC.B        'SEGA MEGA DRIVE SHELL                          '
     DC.B        'SEGA MEGA DRIVE SHELL                          '
     DC.B        'GM-00000000-00'
-    DC.W        0
+    DC.W        0x0000
     DC.B        'J              '
     DC.L        $000000, $0FFFFF
     DC.L        $FF0000, $FFFFFF
     DC.B        '               '
     DC.B        '               '
-    DC.B        'JUE            '
+    DC.B        'J              '
 
 
 ;--------------------------------------------------------
@@ -34,11 +33,24 @@ ROM_HEADER:
 ;           THE ENTRY POINT OF THE PROGRAM 
 ;--------------------------------------------------------
 
+        INCLUDE "vectors.asm"
+
 ;--------------------------------------------------------
 ;       THIS ENCOMPASSES ALL FUNCTIONALITY SUCH AS
 ;   VALIDATING THE TMSS REGISTER, AS WELL AS INITIALISING
 ;   ADDRESS REGISTERS TO READ THE HARDWARE CHECKS TO RAM
 ;--------------------------------------------------------
+
+ENTRY_POINT:
+    MOVE            #$2700, SR                  ;; DISABLE INTERRUPTS BASED ON CURRENT SR OFFSET
+    LEA             SETUP_VALUES(PC), A0       ;; LOAD CURRENT EXECUTION FROM PC TO A0
+    MOVEM.L         (A0)+, A2-A5                ;; INIT ADDRESS REGISTERS
+
+    TST.W           $A1000C-$A11100(A3)         ;; IS PORT C INIT?
+
+    MOVEM.W         (A0)+, D0-D6                ;; INIT DATA REGISTERS
+
+    BRA             HW_CHECK                    ;; BRANCH TO CHECK FOR HARDWARE DEFINES
 
 PROG_ENTRY:
     MOVE        #$2700, SR              ;; DISABLE INTERRUPTS IN STACK REGISTER BASED ON OFFSET
