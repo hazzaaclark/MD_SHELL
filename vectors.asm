@@ -30,16 +30,6 @@ VECTORS:
     DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
     DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
 
-ENTRY_POINT:
-    MOVE            #$2700, SR                  ;; DISABLE INTERRUPTS BASED ON CURRENT SR OFFSET
-    LEA             SETUP_VALUES(PC), A0       ;; LOAD CURRENT EXECUTION FROM PC TO A0
-    MOVEM.L         (A0)+, A2-A5                ;; INIT ADDRESS REGISTERS
-
-    TST.W           $A1000C-$A11100(A3)         ;; IS PORT C INIT?
-
-    MOVEM.W         (A0)+, D0-D6                ;; INIT DATA REGISTERS
-
-    BRA             HW_CHECK                    ;; BRANCH TO CHECK FOR HARDWARE DEFINES
 
 HW_CHECK:
     MOVEQ           #$F, D7
