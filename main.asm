@@ -42,7 +42,7 @@ ROM_HEADER:
 
 PROG_ENTRY:
     MOVE        #$2700, SR              ;; DISABLE INTERRUPTS IN STACK REGISTER BASED ON OFFSET
-    LEA         @SETUP_VALUES(PC), A0
+    LEA         SETUP_VALUES(PC), A0
     MOVEM.L     (A0)+, A2-A5
 
     TST.W       $A1000C-$A11100(A3)
@@ -51,14 +51,12 @@ PROG_ENTRY:
 
     MOVEQ       #$F, D7
     AND.B       $A10001-$A11100(A3), D7
-    BEQ.S       @HW_DONE
+    BEQ         HW_DONE
     MOVE.L      $100.W, $A10001-$A11100(A3)
-
-@HW_DONE:
 
 
 @INIT_DONE:
-    BRA.S       PROG_START
+    BRA       PROG_START
 
 PROG_START:
     MOVEA.L     0.W, SP
