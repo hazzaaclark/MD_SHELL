@@ -14,18 +14,6 @@ VDP_DATA            EQU         $C00000
 VDP_CTRL            EQU         $C00004
 
 ;--------------------------------------------------------
-;               THE FOLLOWING PERTAINS TOWARDS
-;   DEFINING SYMBOLS IN A SIMILAR VEIN TO USING EXTERN
-;--------------------------------------------------------
-
-GLOBAL_DEF:          EQU         1
-
-ASM_EXTERN      MACRO   *
-                if(GLOBAL_DEF)=0
-                endif
-                ENDM
-
-;--------------------------------------------------------
 ;       ADDRESSABLE HEADER ARGUMENTS FOR RETURNING
 ;       BITWISE VALUES FOR ERROR HANDLING 
 ;--------------------------------------------------------
@@ -34,6 +22,7 @@ ASM_EXTERN      MACRO   *
 ADDRESS_ERROR_FLAG      EQU     $01
 SR_USP_ERROR_FLAG       EQU     $02
 
+EXCE_DEFAULT            EQU     0
 EXCE_RETURN             EQU     $20
 EXCE_ALIGN_OFFSET       EQU     $80 
 
@@ -50,10 +39,10 @@ PRINT_STDERR:           MACRO       STRING, FLAGS
     JMP                 ERROR_HANDLER_EXT(PC)
     ENDM
 
-ERROR_HANDLER:          ASM_EXTERN
+ERROR_HANDLER:          
         MOVE            #$2700, SR                      ;; DISABLE INTERRUPTS BASED ON CURRENT SR OFFSET
         MOVEM.L         D0-D6, -(SP)
 
-ERROR_HANDLER_EXT:      ASM_EXTERN
+ERROR_HANDLER_EXT:      
 
 
