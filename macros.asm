@@ -44,5 +44,11 @@ ERROR_HANDLER:
         MOVEM.L         D0-D6, -(SP)
 
 ERROR_HANDLER_EXT:      
+    MOVEM.L             D0-D6, -(SP)
+    MOVE.W              #0, -(SP)
 
+@MAIN_LOOP:
+    LEA                 VDP_CTRL, A5
+    LEA                 -4(A5), A6
 
+    BEQ.S               @MAIN_LOOP
