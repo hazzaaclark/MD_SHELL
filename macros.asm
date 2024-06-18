@@ -24,7 +24,11 @@ SR_USP_ERROR_FLAG       EQU     $02
 
 EXCE_DEFAULT            EQU     0
 EXCE_RETURN             EQU     $20
-EXCE_ALIGN_OFFSET       EQU     $80 
+EXCE_REG_BUFFER         EQU     $40
+EXCE_ALIGN_OFFSET       EQU     $80
+
+ERROR_SP_BUFFER         DS.L    1
+ERROR_TYPE              DS.B    1
 
 ;--------------------------------------------------------
 ;               GLOBAL PRINT SEMANTIC
