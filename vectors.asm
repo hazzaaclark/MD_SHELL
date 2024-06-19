@@ -31,15 +31,37 @@ BUS_ERROR:
     MOVE.B          #2, (ERROR_TYPE).W     
 
 ADDRESS_ERROR:      
-ILLEGAL_INSTR:     
-ZERO_DIV:           
-CHK_INSTR:          
-TRAPV_INSTR:        
-PRIV_VIOL:          
-TRACE:              
-LINE_1010:          
-LINE_1111:          
-ERROR_EXCEPT:       
+    MOVE.B          #4, (ERROR_TYPE).W
+
+ILLEGAL_INSTR:
+    MOVE.B          #6, (ERROR_TYPE).W
+    ADDQ.L          #2, 2(SP)
+
+ZERO_DIV:
+    MOVE.B          #8, (ERROR_TYPE).W
+
+CHK_INSTR:
+    MOVE.B          #$A, (ERROR_TYPE).W
+
+TRAPV_INSTR:
+    MOVE.B          #$C, (ERROR_TYPE).W
+
+PRIV_VIOL:
+    MOVE.B          #$E, (ERROR_TYPE).W
+
+TRACE:
+    MOVE.B          #$10, (ERROR_TYPE).W
+
+LINE_1010:
+    MOVE.B          #$12, (ERROR_TYPE).W
+    ADDQ.L          #2, 2(SP)
+
+LINE_1111:
+    MOVE.B          #$14, (ERROR_TYPE).W
+    ADDQ.L          #2, 2(SP)
+
+ERROR_EXCEPT:
+    MOVE.B          #0, (ERROR_TYPE).W       
 
 IDLE_INT:           
     RTE
