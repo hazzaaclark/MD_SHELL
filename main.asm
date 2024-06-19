@@ -87,8 +87,20 @@ NEXT_VIDEO_BYTE:
     DBRA            D1, NEXT_VIDEO_BYTE
 
     ;--------------------------------------------------------
+    ;                   DEFINE THE PALETTE 
+    ;--------------------------------------------------------
 
-    MOVE.L          #VDP_CMD_CRAM_WRITE, D0
+    MOVE.L          #$C0000000, D0
+    MOVE.L          D0, VDP_CTRL
+    MOVE.W          #%0000011000000000, VDP_DATA
+
+    MOVE.L          #$C01E0000, D0
+    MOVE.L          D0, VDP_CTRL
+    MOVE.W          #%0000000011101110, VDP_DATA
+
+    LEA             FONT, A1
+    MOVE.L          #VDP_CMD_VRAM_WRITE, (VDP_CTRL)
+
 
 ;--------------------------------------------------------
 ;           INITIALISE THE PALETTE INTO CRAM
