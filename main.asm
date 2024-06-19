@@ -64,6 +64,17 @@ ROM_START:
                 INCLUDE "vectors.asm"
                 INCLUDE "vdp.asm"
 
+;--------------------------------------------------------
+;   DEFINE THE ENTRY POINTS FOR THE VDP TO BE SETUP
+;
+;--------------------------------------------------------
+
+HW_CHECK:
+    MOVEQ           #$F, D7
+    AND.B           $A10001-$A11100(A3), D7     ;; ACCESS HARDWARE REV
+    BEQ             HW_DONE                    ;; BRANCH ASSUMING THAT THE RESULT IS EQUAL TO THE AND COMPARISON (SEE: main.asm)
+    MOVE.L          #'SEGA', $A14000             ;; CHECK FOR SEGA CHAR IN ORDER TO INIT VDP
+
 ENTRY_POINT:
     LEA             VDP_SETTINGS, A5
     MOVE.W          (VDP_CTRL), D0
@@ -74,6 +85,8 @@ NEXT_VIDEO_BYTE:
     MOVE.W          D5, (VDP_CTRL)
     ADD.W           #$0100, D5
     DBRA            D1, NEXT_VIDEO_BYTE
+
+    ;--------------------------------------------------------
 
     MOVE.L          #VDP_CMD_CRAM_WRITE, D0
 
