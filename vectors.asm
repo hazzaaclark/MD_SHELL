@@ -11,13 +11,6 @@
 ;                   VECTOR TABLE
 ;--------------------------------------------------------
 
-
-HW_CHECK:
-    MOVEQ           #$F, D7
-    AND.B           $A10001-$A11100(A3), D7     ;; ACCESS HARDWARE REV
-    BEQ.S           HW_DONE                    ;; BRANCH ASSUMING THAT THE RESULT IS EQUAL TO THE AND COMPARISON (SEE: main.asm)
-    MOVE.L          #'SEGA', $A14000             ;; CHECK FOR SEGA CHAR IN ORDER TO INIT VDP
-
 ;--------------------------------------------------------
 ;   THIS COROUTINE WILL LOOK TO MAKE SURE THAT THE Z80
 ;   BUS IS ABLE TO COMMUNICATE WITH THE VDP IN ORDER TO INIT
