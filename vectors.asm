@@ -11,25 +11,6 @@
 ;                   VECTOR TABLE
 ;--------------------------------------------------------
 
-VECTORS:
-
-    DC.L        $FFFFF0,            ENTRY_POINT,        BUS_ERROR,          ADDRESS_ERROR
-    DC.L        ILLEGAL_INSTR,      ZERO_DIV,           CHK_INSTR,          TRAPV_INSTR
-    DC.L        PRIV_VIOL,          TRACE,              LINE_1010,          LINE_1111
-    DC.L        ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT
-    DC.L        ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT
-    DC.L        ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT
-    DC.L        ERROR_EXCEPT,       ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-    DC.L        IDLE_INT,           ERROR_TRAP,         IDLE_INT,           ERROR_TRAP
-    DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-    DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-    DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-    DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-    DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-    DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-    DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-    DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-
 
 HW_CHECK:
     MOVEQ           #$F, D7
@@ -47,37 +28,18 @@ HW_DONE:
     MOVE.W      D1, (A4)
     
 BUS_ERROR:          
-    PRINT_STDERR    "BUS ERROR", EXCE_DEFAULT | ADDRESS_ERROR_FLAG
+    MOVE.B          #2, (ERROR_TYPE).W     
 
 ADDRESS_ERROR:      
-    PRINT_STDERR    "ADDRESS ERROR", EXCE_DEFAULT | ADDRESS_ERROR_FLAG
-
 ILLEGAL_INSTR:     
-    PRINT_STDERR    "ILLEGAL INSTRUCTION", EXCE_DEFAULT
-
 ZERO_DIV:           
-    PRINT_STDERR    "ZERO DIVISION", EXCE_DEFAULT
-
 CHK_INSTR:          
-    PRINT_STDERR    "CHECK INSTRUCTION", EXCE_DEFAULT
-
 TRAPV_INSTR:        
-    PRINT_STDERR    "TRAP_V INSTRUCTION", EXCE_DEFAULT
-
 PRIV_VIOL:          
-    PRINT_STDERR    "PRIVILEEGE VIOLATION", EXCE_DEFAULT
-
 TRACE:              
-    PRINT_STDERR    "TRACE", EXCE_DEFAULT
-
 LINE_1010:          
-    PRINT_STDERR    "LINE_1010 EMULATOR", EXCE_DEFAULT
-
 LINE_1111:          
-    PRINT_STDERR    "LINE_1111 EMULATOR", EXCE_DEFAULT
-
 ERROR_EXCEPT:       
-    PRINT_STDERR    "ERROR EXCEPTION", EXCE_DEFAULT
 
 IDLE_INT:           
     RTE
