@@ -75,6 +75,8 @@ NEXT_VIDEO_BYTE:
     ADD.W           #$0100, D5
     DBRA            D1, NEXT_VIDEO_BYTE
 
+    MOVE.L          #VDP_CMD_CRAM_WRITE, D0
+
 ;--------------------------------------------------------
 ;           INITIALISE THE PALETTE INTO CRAM
 ;--------------------------------------------------------
