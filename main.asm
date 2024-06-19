@@ -38,9 +38,9 @@ VECTORS:
 ROM_START:
     DC.B        'SEGA MEGA DRIVE '                          ;; CONSOLE NAME 
     DC.B        '(C)HARRY CLARK '                           ;; AUTHOR NAME 
-    DC.B        '       SEGA MEGA DRIVE SHELL                      '            ;; DOMESTIC NAME
-    DC.B        '       SEGA MEGA DRIVE SHELL                      '            ;; INTERNATION NAME (NOT USED)
-    DC.B        'GM-00000000-00'                                                ;; CODE
+    DC.B        '    SEGA MEGA DRIVE SHELL                      '            ;; DOMESTIC NAME
+    DC.B        '    SEGA MEGA DRIVE SHELL                      '            ;; INTERNATION NAME (NOT USED)
+    DC.B        '   GM-00000000-00'                                                ;; CODE
     DC.W        0x0000                                                          ;; SP
     DC.B        'J              '                                               ;; IO SUPPORT 
     DC.L        ROM_START                                                       ;; ROM START
