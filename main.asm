@@ -5,7 +5,6 @@
 ;--------------------------------------------------------
 
             INCLUDE "macros.asm"
-            INCLUDE "vectors.asm"
 
 ;--------------------------------------------------------
 ;   THIS FILE PERTAINS TOWARDS THE MAIN FUNCTIONALITY
@@ -20,9 +19,8 @@ VECTORS:
     DC.L        ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT
     DC.L        ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT
     DC.L        ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT,       ERROR_EXCEPT
-    DC.L        ERROR_EXCEPT,       ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
-    DC.L        IDLE_INT,           ERROR_TRAP,         IDLE_INT,           ERROR_TRAP
     DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
+    DC.L        IDLE_INT,           ERROR_TRAP,         IDLE_INT,           ERROR_TRAP
     DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
     DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
     DC.L        ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP,         ERROR_TRAP
@@ -37,11 +35,11 @@ VECTORS:
 ;--------------------------------------------------------
 
 ROM_START:
-    DC.B        'SEGA MEGA DRIVE '                                               ;; CONSOLE NAME 
-    DC.B        '(C)HARRY CLARK '                                               ;; AUTHOR NAME 
-    DC.B        '    SEGA MEGA DRIVE SHELL                      '               ;; DOMESTIC NAME
-    DC.B        '    SEGA MEGA DRIVE SHELL                      '               ;; INTERNATIONAL NAME (NOT USED)
-    DC.B        '   GM-00000000-00'                                             ;; CODE
+    DC.B        'SEGA MEGA DRIVE '                          ;; CONSOLE NAME 
+    DC.B        '(C)HARRY CLARK '                           ;; AUTHOR NAME 
+    DC.B        '            SEGA MEGA DRIVE SHELL                      '            ;; DOMESTIC NAME
+    DC.B        '            SEGA MEGA DRIVE SHELL                      '            ;; INTERNATION NAME (NOT USED)
+    DC.B        '   GM-00000000-00'                                                ;; CODE
     DC.W        0x0000                                                          ;; SP
     DC.B        'J              '                                               ;; IO SUPPORT 
     DC.L        ROM_START                                                       ;; ROM START
@@ -51,7 +49,7 @@ ROM_START:
     DC.L        $20202020                                                       ;; SRAM START
     DC.L        $20202020                                                       ;; SRAM END
     DC.B        "                                               "
-    DC.B        "JUE            "                                               ;; REGION
+    DC.B        "JUE            "                                                ;; REGION
 
 
 ;--------------------------------------------------------
@@ -63,8 +61,28 @@ ROM_START:
 ;   ADDRESS REGISTERS TO READ THE HARDWARE CHECKS TO RAM
 ;--------------------------------------------------------
 
+                INCLUDE "vectors.asm"
+                INCLUDE "vdp.asm"
 
 ENTRY_POINT:
+    LEA             VDP_SETTINGS, A5
+    MOVE.W          (VDP_CTRL), D0
+    MOVE.L          #$00008000, D5
 
+NEXT_VIDEO_BYTE:
+    MOVE.B          (A5)+, D5
+    MOVE.W          D5, (VDP_CTRL)
+    ADD.W           #$0100, D5
+    DBRA            D1, NEXT_VIDEO_BYTE
+
+;--------------------------------------------------------
+;           INITIALISE THE PALETTE INTO CRAM
+;--------------------------------------------------------
+
+PALETTE_DATA:
+    DC.W            $0EEE, $0000, $0EEE, $0000, $0EEE, $0000, $0EEE, $0000
+    DC.W            $0EEE, $0000, $0EEE, $0000, $0EEE, $0000, $0EEE, $0000
+    DC.W            $0EEE, $0000, $0EEE, $0000, $0EEE, $0000, $0EEE, $0000
+    DC.W            $0EEE, $0000, $0EEE, $0000, $0EEE, $0000, $0EEE, $0000
 
 ROM_END:
