@@ -21,3 +21,8 @@ This project is split up into two different yet concurrent sections that work in
 As of right now, this project can be built using the provided ``./buid.bat`` file - albeit it is very basic in structure 
 
 You will need to have ``ASM68K`` as a pre-requisite to be able to build this project 
+
+# Demonstration:
+
+![image](https://github.com/hazzaaclark/MD_SHELL/assets/107435091/07bfc642-f7e6-4d82-bbb4-cff66038b16c)
+
